@@ -1,13 +1,23 @@
 import os
+import sys
 from dotenv import load_dotenv
 from google import genai
 
-load_dotenv()
-api_key = os.environ.get("GEMINI_API_KEY")
 
-client = genai.Client(api_key=api_key)
-content = client.models.generate_content(model="gemini-2.0-flash-001", contents="Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.")
+if __name__ == "__main__":
+    load_dotenv()
+    api_key = os.environ.get("GEMINI_API_KEY")
+    script_args = sys.argv
 
-## print(content.text)
-print("Prompt tokens:", content.usage_metadata.prompt_token_count)
-print("Response tokens:", content.usage_metadata.candidates_token_count)
+    if len(script_args) < 2:
+        print("not enough arguments provided to script")
+        exit(1)
+
+    client = genai.Client(api_key=api_key)
+    content = client.models.generate_content(
+        model="gemini-2.0-flash-001",
+        contents=script_args[1]
+    )
+
+    print("Prompt tokens:", content.usage_metadata.prompt_token_count)
+    print("Response tokens:", content.usage_metadata.candidates_token_count)
