@@ -22,9 +22,9 @@ def get_files_info(working_directory, directory=None):
             is_dir = os.path.isdir(element_to_check)
 
             if is_file:
-                res += f"{element}: file_size={os.path.getsize(element_to_check)}, is dir={is_dir}\n"
+                res += f"{element}: file_size={os.path.getsize(element_to_check)}, is_dir={is_dir}\n"
             elif is_dir:
-                res += f"{element}: file_size={os.path.getsize(element_to_check)}, is dir={is_dir}\n"
+                res += f"{element}: file_size={os.path.getsize(element_to_check)}, is_dir={is_dir}\n"
 
     except Exception as e:
         return f"Error: {e}"
