@@ -15,7 +15,10 @@ def get_file_content(working_directory, file_path):
         with open(file_to_check, "r") as f:
             file_content_string = f.read(MAX_CHARS)
             if f.read(1):  # Try to read one more character to check if file is longer
-                file_content_string = file_content_string.rstrip('\n') + f'\n...File "{file_path}" truncated at 10000 characters'
+                file_content_string = (
+                    file_content_string.rstrip("\n")
+                    + f'\n...File "{file_path}" truncated at 10000 characters'
+                )
     except Exception as e:
         return f"Error: {e}"
 

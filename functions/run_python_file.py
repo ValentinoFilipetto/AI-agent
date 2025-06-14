@@ -21,11 +21,11 @@ def run_python_file(working_directory, file_path):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=30,
-            cwd=working_directory
+            cwd=working_directory,
         )
 
-        stdout = result.stdout.decode('utf-8')
-        stderr = result.stderr.decode('utf-8')
+        stdout = result.stdout.decode("utf-8")
+        stderr = result.stderr.decode("utf-8")
         output = []
 
         if not stdout and not stderr:
