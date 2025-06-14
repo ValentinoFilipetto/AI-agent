@@ -8,11 +8,11 @@ from functions.write_file import write_file
 
 def call_function(function_call_part, verbose=False):
     if verbose:
-        print(f"Calling function: {function_call_part.name}({function_call_part.args})")
+        print(
+            f"- Calling function: {function_call_part.name}({function_call_part.args})"
+        )
     else:
-        print(f" - Calling function: {function_call_part.name}")
-
-    print("args", function_call_part.args)
+        print(f"- Calling function: {function_call_part.name}")
 
     available_functions = {
         "get_files_info": get_files_info,

@@ -50,36 +50,36 @@ def main():
         ]
     )
 
-    response = client.models.generate_content(
-        model="gemini-2.0-flash-001",
-        contents=messages,
-        config=types.GenerateContentConfig(
-            tools=[available_functions], system_instruction=system_prompt
-        ),
-    )
+    for _ in range(20):
+        response = client.models.generate_content(
+            model="gemini-2.0-flash-001",
+            contents=messages,
+            config=types.GenerateContentConfig(
+                tools=[available_functions], system_instruction=system_prompt
+            ),
+        )
 
-    if len(script_args) == 3 and script_args[2] == "--verbose":
-        print("Prompt tokens:", response.usage_metadata.prompt_token_count)
-        print("Response tokens:", response.usage_metadata.candidates_token_count)
+        for candidate in response.candidates:
+            messages.append(candidate.content)
 
-    print("Response:")
-    print(response.text)
+        if len(script_args) == 3 and script_args[2] == "--verbose":
+            print("Prompt tokens:", response.usage_metadata.prompt_token_count)
+            print("Response tokens:", response.usage_metadata.candidates_token_count)
 
-    ## if the agent called any functions, we display some info about it to the user
-    if response.function_calls:
-        for function_call_part in response.function_calls:
-            print(
-                f"Calling function: {function_call_part.name}({function_call_part.args})"
-            )
-            function_call_result = call_function(
-                function_call_part,
-                verbose=(len(script_args) == 3 and script_args[2] == "--verbose"),
-            )
+        if response.function_calls:
+            for function_call_part in response.function_calls:
+                function_call_result = call_function(
+                    function_call_part,
+                    verbose=(len(script_args) == 3 and script_args[2] == "--verbose"),
+                )
 
-            if not function_call_result.parts[0].function_response.response:
-                raise Exception("Cannot get function response")
-            elif script_args[2] == "--verbose":
-                print(f"-> {function_call_result.parts[0].function_response.response}")
+                messages.append(function_call_result)
+
+        else:
+            print("---------------------------------------")
+            print("Final response:\n")
+            print(response.text)
+            break
 
 
 if __name__ == "__main__":
