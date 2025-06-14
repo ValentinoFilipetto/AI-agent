@@ -1,5 +1,8 @@
 # AI-agent
 
+> [!WARNING]
+>  This project does not have all the security and safety features that a production AI agent would have. It is for learning purposes only.
+
 ## Project idea
 
 This is an AI agent similar to [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) or [Aider](https://aider.chat/). This agent:
