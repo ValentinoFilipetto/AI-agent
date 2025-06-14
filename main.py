@@ -26,7 +26,7 @@ def main():
                     All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
                     """
 
-    # these are the arguments that a user typed
+    ## these are the arguments that a user typed
     script_args = sys.argv
 
     if len(script_args) < 2:
@@ -62,6 +62,7 @@ def main():
         for candidate in response.candidates:
             messages.append(candidate.content)
 
+        ## Show tokens used if "--verbose" flag is enabled
         if len(script_args) == 3 and script_args[2] == "--verbose":
             print("Prompt tokens:", response.usage_metadata.prompt_token_count)
             print("Response tokens:", response.usage_metadata.candidates_token_count)
@@ -73,8 +74,10 @@ def main():
                     verbose=(len(script_args) == 3 and script_args[2] == "--verbose"),
                 )
 
+                ## LLM needs to be aware of function responses
                 messages.append(function_call_result)
 
+        ## we return when LLM has no more functions to invoke
         else:
             print("---------------------------------------")
             print("Final response:\n")
